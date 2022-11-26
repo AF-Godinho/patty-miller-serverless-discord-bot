@@ -12,36 +12,34 @@ exports.data = {
 }
 
 const action = async (body) => {
-    // Create DynamoDB service object.
-    const ddb = new AWS.DynamoDB({apiVersion: "2012-08-10"});
+    AWS.config.update({region: 'eu-west-1'});
 
-    const params = {
-        ExpressionAttributeValues: {
-            ':s': {N: '2'},
-            ':e' : {N: '09'},
-            ':topic' : {S: 'PHRASE'}
+    var ddb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+
+    var params = {
+        TableName: 'Quests',
+        Key: {
+            'quest_id': {S: '1'}
         },
-        KeyConditionExpression: 'Season = :s and Episode > :e',
-        ProjectionExpression: 'Episode, Title, Subtitle',
-        FilterExpression: 'contains (Subtitle, :topic)',
-        TableName: 'Quests'
+        ProjectionExpression: 'title'
     };
 
     let response = {
-        "content": "No quests"
-    }
-    ddb.scan(params, function (err, data) {
+        "content": "No quests available"
+    };
+    // Call DynamoDB to read the item from the table
+     ddb.getItem(params, function(err, data) {
         if (err) {
             console.log("Error", err);
         } else {
-            console.log("Success", data);
+            console.log("Success", data.Item);
             response = {
-                "content": data.Title.S + ' - ' + data.Description.S
+                "content": data.Item.title.S
             }
         }
     });
 
-    return response
+    return response;
 }
 
 exports.handler = (event) => {
