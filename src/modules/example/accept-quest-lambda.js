@@ -14,32 +14,37 @@ exports.data = {
 const action = async (body) => {
     AWS.config.update({region: 'eu-west-1'});
 
-    var ddb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
-
     var params = {
         TableName: 'Quests',
         Key: {
-            'quest_id': {S: '1'}
+            'quest_id': '1'
         },
         ProjectionExpression: 'title'
     };
 
-    let response = {
-        "content": "No quests available"
-    };
-    // Call DynamoDB to read the item from the table
-     ddb.getItem(params, function(err, data) {
-        if (err) {
-            console.log("Error", err);
-        } else {
-            console.log("Success", data.Item);
-            response = {
-                "content": data.Item.title.S
-            }
-        }
-    });
+    var data;
+    try {
+        data = await getQuest(params);
+        console.log("Query succeeded.");
+    }
+    catch (err) {
+        console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+    }
 
-    return response;
+    return { 'content': data.Item.title };
+}
+
+function getQuest(params) {
+    var ddb = new AWS.DynamoDB.DocumentClient({apiVersion: '2012-08-10'});
+    return new Promise((resolve, reject) => {
+        ddb.get(params, (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        });
+    });
 }
 
 exports.handler = (event) => {
