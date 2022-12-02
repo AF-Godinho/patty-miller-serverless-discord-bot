@@ -10,7 +10,8 @@ exports.templateResource = (module, command, name) => {
       "MemorySize": 128,
       "Timeout": 100,
       "Policies": [
-        "AWSLambdaBasicExecutionRole"
+        "AWSLambdaBasicExecutionRole",
+        "AmazonDynamoDBFullAccess"
       ],
       "Events": {
         "SNSEvent": {
