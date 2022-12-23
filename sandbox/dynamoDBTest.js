@@ -4,9 +4,9 @@ AWS.config.update({region: 'eu-west-1'});
 var ddb = new AWS.DynamoDB.DocumentClient({apiVersion: '2012-08-10'});
 
 var params = {
-    TableName: 'Quests',
+    TableName: 'RANK_C_QUESTS',
     Key: {
-        'quest_id': '1'
+        'QUEST_ID': 1
     },
     ProjectionExpression: 'title'
 };

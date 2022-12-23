@@ -3,13 +3,13 @@ AWS.config.update({region: 'eu-west-1'});
 
 var params = {
     RequestItems: {
-        'Quests': {
+        'RANK_C_QUESTS': {
             Keys: [
                 {
-                    quest_id: '1'
+                    QUEST_ID: 1
                 },
                 {
-                    quest_id: '2'
+                    QUEST_ID: 2
                 }
             ],
             ProjectionExpression: 'title'
@@ -41,7 +41,7 @@ async function syncGetQuest() {
         console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
     }
 
-    console.log(data.Responses.Quests);
+    console.log(data.Responses);
     return data;
 }
 
