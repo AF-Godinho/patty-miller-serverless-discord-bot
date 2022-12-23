@@ -4,6 +4,7 @@
 
 const { globalHandler } = require('../handler.js')
 const AWS = require('aws-sdk');
+const ResponseContentBuilder = require('../../utils/responseContentBuilder.js')
 const RETURNED_QUESTS = 3;
 const N_QUESTS = 25; //FIXME we should check for the number of quests.
 
@@ -18,19 +19,19 @@ const action = async (body) => {
     const allQuestIds = Array.from(Array(N_QUESTS).keys())
     shuffle(allQuestIds);
     const questsToGet = allQuestIds.slice(0, RETURNED_QUESTS);
+    console.log(questsToGet);
 
+    const keysObjects = [];
+    for (let questId of questsToGet) {
+        keysObjects.push({QUEST_ID: questId + 1})
+    }
+
+    //FIXME WE SHOULD CHECK FOR THE USER'S RANK
     var params = {
         RequestItems: {
-            'Quests': {
-                Keys: [
-                    {
-                        quest_id: '1'
-                    },
-                    {
-                        quest_id: '2'
-                    }
-                ],
-                ProjectionExpression: 'title'
+            'RANK_C_QUESTS': {
+                Keys: keysObjects,
+                ProjectionExpression: 'QUEST_ID, id, title, description, mission_reward, skill_check'
             }
         },
     };
@@ -44,7 +45,7 @@ const action = async (body) => {
         console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
     }
 
-    return { 'content': data.Responses.Quests[0].title + data.Responses.Quests[1].title };
+    return { 'content': ResponseContentBuilder.getRequestQuestResponse(data)};
 }
 
 function getQuest(params) {
