@@ -5,14 +5,11 @@
 const { globalHandler } = require('../handler.js')
 const AWS = require('aws-sdk');
 const ResponseContentBuilder = require('../../utils/responseContentBuilder.js')
+const {SlashCommandBuilder} = require("discord.js");
 const RETURNED_QUESTS = 3;
 const N_QUESTS = 25; //FIXME we should check for the number of quests.
 
-exports.data = {
-    name: 'request_quests',
-    type: 1,
-    description: 'Shows quests that an adventurer can accept.'
-}
+exports.data = new SlashCommandBuilder().setName('request_quests').setDescription('Shows quests that an adventurer can accept.');
 
 const action = async (body) => {
     AWS.config.update({region: 'eu-west-1'});
