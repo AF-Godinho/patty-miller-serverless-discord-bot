@@ -9,6 +9,25 @@ class ResponseContentBuilder {
         }
         return response;
     }
+
+    static getAcceptQuestResponse(item, skillCheckValue) {
+        let response = '';
+        if (item.s_check > skillCheckValue) {
+            return "**Failure**\n" +
+                item.f_text +
+                `\nReward: ${item.f_reward}\n`
+        }
+
+        if (item.gs_check > skillCheckValue) {
+            return "**Success**\n" +
+                item.s_text +
+                `\nReward: ${item.s_reward}\n`
+        }
+
+        return "**Great Success**\n" +
+            item.gs_text +
+            `\nReward: ${item.gs_reward}\n`
+    }
 }
 
 module.exports = ResponseContentBuilder
