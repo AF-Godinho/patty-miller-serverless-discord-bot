@@ -52,7 +52,7 @@ exports.handler = async (event) => {
       statusCode: 200,
       body: JSON.stringify({
         "type": 4,
-        "data": { "content": "*⏳ Loading...*" }
+        "data": { "content": "*⏳ Let me check...*" }
       })
     }
   }
