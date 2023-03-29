@@ -11,22 +11,21 @@ class ResponseContentBuilder {
     }
 
     static getAcceptQuestResponse(item, skillCheckValue) {
-        let response = '';
         if (item.s_check > skillCheckValue) {
             return "**Failure**\n" +
                 item.f_text +
-                `\nReward: ${item.f_reward}\n`
+                `\nReward: ${item.f_reward} & 1 EXP\n`
         }
 
         if (item.gs_check > skillCheckValue) {
             return "**Success**\n" +
                 item.s_text +
-                `\nReward: ${item.s_reward}\n`
+                `\nReward: ${item.s_reward} & 5 EXP\n`
         }
 
         return "**Great Success**\n" +
             item.gs_text +
-            `\nReward: ${item.gs_reward}\n`
+            `\nReward: ${item.gs_reward} & 10 EXP\n`
     }
 }
 
