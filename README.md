@@ -16,12 +16,10 @@ Prerequisites:
 - Discord Application created and invited to your test guild
 
 ### Clone the boilerplate and install required packages
-Clone this repo with AWS SAM
+Clone this repo and init AWS SAM
 
 ```
-mkdir my-serverless-discord-bot && \
-cd my-serverless-discord-bot && \
-sam init --location gh:jakjus/serverless-discord-bot
+sam init
 ```
 
 Install required packages
@@ -53,7 +51,7 @@ node register_commands/register.js
 ### Build and deploy
 Build and deploy with:
 ```
-sam build && sam deploy --guided
+sam build && sam deploy
 ```
 
 ## Add your own function
